@@ -21,7 +21,7 @@
 *.smod
 
 # Compiled Static libraries
-*.lai
+*.laigi 
 *.la
 *.a
 *.lib
@@ -30,3 +30,14 @@
 *.exe
 *.out
 *.app
+
+#build failures
+*stackdump
+
+#Cmake trash
+Make*
+CmakeCache.txt
+CmakeFiles/
+*.cmake
+#folder
+test_case/
