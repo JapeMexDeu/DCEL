@@ -21,6 +21,8 @@ class DCEL
 		Vertex* createGetVertex();
         size_t createVertex(double x, double y, double z);
 		
+		void reserveSpace(size_t vertices, size_t edges, size_t faces);
+
 		Vertex* getVertex(size_t vertex_id);
 		//****End vertex manipulation
 		

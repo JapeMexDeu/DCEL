@@ -1,39 +1,43 @@
-
 #include"DCEL.hpp"
-
 #include<iostream>
 
-
 using namespace std;
+/*Hard code a mesh for testing*/
+void codeMesh(DCEL* Mesh)
+{
+	Mesh->reserveSpace(10, 10, 10);
+	Mesh->createVertex(0, 0, 0);
+	Mesh->createVertex(1, 0, 0);
+	Mesh->createVertex(0, 1, 0);
+	Mesh->createVertex(-1, 0, 0);
+	Mesh->createVertex(0, -1, 0);
 
-using namespace std;
+	Mesh->createEdge(Mesh->getVertex(0), Mesh->getVertex(1), nullptr, nullptr);
+	Mesh->createEdge(Mesh->getVertex(0), Mesh->getVertex(2), nullptr, nullptr);
+	Mesh->createEdge(Mesh->getVertex(0), Mesh->getVertex(3), nullptr, nullptr);
+	Mesh->createEdge(Mesh->getVertex(0), Mesh->getVertex(4), nullptr, nullptr);
 
+	Mesh->getVertex(0)->setIncidentEdge(Mesh->getHalfEdge(0));
+	Mesh->getVertex(1)->setIncidentEdge(Mesh->getHalfEdge(1));
+	Mesh->getVertex(2)->setIncidentEdge(Mesh->getHalfEdge(3));
+	Mesh->getVertex(3)->setIncidentEdge(Mesh->getHalfEdge(5));
+	Mesh->getVertex(4)->setIncidentEdge(Mesh->getHalfEdge(7));
+
+}
 int main()
 {
 	DCEL Mesh;
-	cout<<"\nLets reserve space already, so we wont have any issues: \n";
-	Mesh.getVer
-	cout<<"Creation of a DCEL and addition of a vertices\n";
-	
-	Mesh.getVertices().reserve(10);
-	Mesh.createVertex();
-	Mesh.getVertex(0)->setData(0,0,0);
-	Mesh.getVertices()[0].printVertex();
-	Mesh.createVertex();
-	Mesh.getVertex(1)->setData(1,1,1);
-	Mesh.getVertices()[1].printVertex();
-	
-	cout<<"Size of vertices vector is: "<<Mesh.getVertices().size();
-	cout<<"Size of halfedge vector is: "<<Mesh.getHalfEdges().size();
-	
-	Mesh.createEdge(Mesh.getVertex(0),Mesh.getVertex(1),nullptr,nullptr);
-	cout<<"\nPrinting vertex info from origin of hes\n";
-	Mesh.getHalfEdge(0)->getOriginVertex()->printVertex();
-	Mesh.getHalfEdge(1)->getOriginVertex()->printVertex();
-	
-	cout<<"\nPrinting vertex info from twin of hes\n";
-	Mesh.getHalfEdge(1)->getPairEdge()->getOriginVertex()->printVertex();
-	cout<<"\nFor first one\n";
-	Mesh.getHalfEdge(0)->getPairEdge()->getOriginVertex()->printVertex();
+	codeMesh(&Mesh);
+
+	Vertex* v1 = Mesh.getVertex(0);
+	Vertex* v2 = Mesh.getVertex(3);
+	HalfEdge* found = Mesh.getHalfEdge(v1, v2);
+	//HalfEdge* found = Mesh.getHalfEdge(Mesh.getVertex(0), Mesh.getVertex(3));
+	if (found != nullptr)
+	{
+		cout << "\n";
+		found->printEdge();
+		cout << "\n";
+	}
 	return 0;
 }

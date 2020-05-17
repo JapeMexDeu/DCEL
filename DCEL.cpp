@@ -1,3 +1,4 @@
+
 #include"DCEL.hpp"
 Vertex* DCEL::createGetVertex()
 {
@@ -9,6 +10,12 @@ size_t DCEL::createVertex()
 	this->vertices.push_back(Vertex());
 	return this->vertices.size()-1;
 }
+void DCEL::reserveSpace(size_t vertices, size_t edges, size_t faces)
+{
+	this->vertices.reserve(vertices);
+	this->halfedges.reserve(2 * vertices);
+	this->faces.reserve(faces);
+}
 size_t DCEL::createVertex(double x, double y, double z)
 {
 	this->vertices.push_back(Vertex(x,y,z));
@@ -19,10 +26,12 @@ Vertex* DCEL::getVertex(size_t vertex_id)
 	return &this->vertices[vertex_id];
 }
 
+//The vertices will have to set their incident edges independently
 size_t DCEL::createEdge(Vertex* origin,Vertex* pairOrigin,Face* incidentFace,Face* incidentPairFace)
 {
 	/*Heres the deal, to use push_back you have already have used reserve(), for enough space as necessary, else the
-	  memory being pointed by the pointer is corrupted. If, you have not used */
+	  memory being pointed by the pointer is corrupted. If, you have not used reserve, then push_back will provoke a loss of the pointed
+	  */
 	size_t halfedgeid=this->halfedges.size();
 	this->halfedges.push_back(HalfEdge());
 	//first pointer
@@ -35,17 +44,11 @@ size_t DCEL::createEdge(Vertex* origin,Vertex* pairOrigin,Face* incidentFace,Fac
 	HalfEdge* e2=&(this->halfedges[halfedgeid+1]);
 	e2->setOriginVertex(pairOrigin);
 	e2->setLeftFace(incidentPairFace);
-	e2->getOriginVertex()->printVertex();
+	
 	
 	//set pairs
 	e1->setPairEdge(e2);
-	
-	cout<<"\nInside create edge, assigned twins with pointers, print vertex from edge 1\n";
-	e2->getPairEdge()->getOriginVertex()->printVertex();
-	cout<<"\nInside create edge, assigned twins with pointers, print vertex from edge 0\n";
-	e1->getPairEdge()->getOriginVertex()->printVertex();
-	
-	//halfedges[halfedge_id].setPairEdge(&halfedges[halfedge_id+1]);
+
 	return halfedgeid;
 }
 

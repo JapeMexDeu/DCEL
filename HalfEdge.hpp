@@ -19,63 +19,33 @@ class HalfEdge
          HalfEdge( ):nextEdge(nullptr),previousEdge(nullptr),pairEdge(nullptr),originVertex(nullptr),leftFace(nullptr)
 		{
 			//left empty
-		}; 
-		//attempt to have copy constructor
-/* 		HalfEdge(const HalfEdge& hedge)
-		{
-			this->nextEdge=hedge.nextEdge;
-			this->previousEdge=hedge.previousEdge;
-			this->pairEdge=hedge.pairEdge;
-			this->originVertex=hedge.originVertex;
-			this->leftFace=hedge.leftFace;
-		}
-		//attempt at assignment operator
-		HalfEdge& operator=(const HalfEdge& hedge)
-		{
-			//check self assignment
-			//do copy
-			this->nextEdge=hedge.nextEdge;
-			this->previousEdge=hedge.previousEdge;
-			this->pairEdge=hedge.pairEdge;
-			this->originVertex=hedge.originVertex;
-			this->leftFace=hedge.leftFace;
-			
-			return *this;
-		} */
+		};
         //setters and getters
         void setNextEdge(HalfEdge* edge)
 		{ 
-			nextEdge=edge;
+			this->nextEdge = edge;
+			edge->nextEdge = this;
 		}
 		
         void setPreviousEdge(HalfEdge* edge)
 		{
-			previousEdge=edge;
+			this->previousEdge = edge;
+			edge->previousEdge = this;
 		}
 
 		
         void setPairEdge(HalfEdge* edge)
 		{ 
 			this->pairEdge = edge;
-			
-			/* cout<<"\n\nFrom setPairEdge";
-			if(this->pairEdge==nullptr)
-			{
-				cout<<"\nIs nullptr\n";
-			}
-			else 
-			{
-				cout<<"\nIs not nullptr\n";
-				this->pairEdge->getOriginVertex()->printVertex();
-				cout<<"\n";
-			} */
-				
 			edge->pairEdge=this;
 
 		}
 		
         void setOriginVertex(Vertex* vertex){ this->originVertex=vertex;};
-        void setLeftFace(Face* face){ leftFace=face;};
+        void setLeftFace(Face* face)
+		{ 
+			leftFace=face;
+		}
 		
 		HalfEdge* getNextEdge(){return this->nextEdge;};
 		HalfEdge* getPreviousEdge(){return this->previousEdge;};
@@ -85,6 +55,15 @@ class HalfEdge
 		
 		Face* getLeftFace(){return this->leftFace;};
 
+		//utility functio, should be deleted
+		void printEdge()
+		{
+			cout << "From ";
+			this->originVertex->printVertex();
+			cout << " to ";
+			this->pairEdge->getOriginVertex()->printVertex();
+			
+		}
   
 };
 

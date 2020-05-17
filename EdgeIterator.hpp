@@ -20,7 +20,7 @@ class EdgeIterator
 		}
 		HalfEdge* getNextHalfEdge( )
 		{
-			//temporary store the next edge pointer value
+			//temporary store the next  edge pointer value
 			HalfEdge* temporaryNext=this->nextEdge;
 			//if we have an actual next value, if the vertex is not unused
 			if(nextEdge)//if next edge != nullptr
